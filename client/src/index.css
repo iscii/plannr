@@ -12,3 +12,20 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* hide gmaps control buttons */
+.gm-style-mtc {
+	display: none !important;
+}
+.gm-fullscreen-control {
+  display: none !important;
+}
+.gm-bundled-control {
+  display: none !important;
+}
+.gm-bundled-control-on-bottom {
+  display: none !important;
+}
+.gm-style-cc {
+  display: none !important;
+}
