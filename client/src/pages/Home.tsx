@@ -159,8 +159,8 @@ export default function Home(props: HomeProps): React.ReactElement {
                 type="search"
                 id="searchBar"
                 name="searchBar"
-                placeholder="Search Plannr ... Use the dropdown to filter by category."
-                className="bg-gray-40 p-50 z-10 m-3 block w-2/6 rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                placeholder="Search a Place"
+                className="bg-gray-40 p-50 z-10 m-3 block w-full rounded-full lg:w-2/6 lg:rounded-xl h-12 border border-gray-600 p-4 text-lg opacity-90"
               />
               <select
                 name="categories"
@@ -209,7 +209,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                 })}
               </select>
 
-              <div className="bg-gray-40 p-50 z-10 m-3 flex w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg">
+              <div className="hidden lg:block bg-gray-40 p-50 z-10 m-3 flex w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg">
                 <p className="text-md mr-5 rounded-xl bg-slate-100 pl-2 pr-2 text-center opacity-90">
                   Radius
                 </p>
@@ -273,7 +273,7 @@ export default function Home(props: HomeProps): React.ReactElement {
               <select
                 name="units"
                 id="units"
-                className="bg-gray-40 p-50 z-10 m-3 block w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                className="hidden lg:block bg-gray-40 p-50 z-10 m-3 block w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
                 defaultValue={Units.KM}
                 onChange={(e) => {
                   const center = mapRef.current?.getCenter();
