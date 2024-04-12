@@ -20,9 +20,9 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { Slider } from "@mui/material";
 import nearbySearch from "../api/GoogleMaps/nearbySearch";
-import Directions from "../components/Directions/Directions";
-import SearchResults from "../components/Home/SearchResults";
-import TripWindow from "../components/Home/TripWindow";
+import Directions from "../components/directions/Directions";
+import SearchResults from "../components/home/SearchResults";
+import TripWindow from "../components/home/TripWindow";
 import Navbar from "../components/Navbar";
 import {
   radius as DEFAULT_RADIUS,
@@ -209,7 +209,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                 })}
               </select>
 
-              <div className="hidden lg:block bg-gray-40 p-50 z-10 m-3 flex w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg">
+              <div className="hidden lg:flex bg-gray-40 p-50 z-10 m-3 w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg">
                 <p className="text-md mr-5 rounded-xl bg-slate-100 pl-2 pr-2 text-center opacity-90">
                   Radius
                 </p>
@@ -273,7 +273,7 @@ export default function Home(props: HomeProps): React.ReactElement {
               <select
                 name="units"
                 id="units"
-                className="hidden lg:block bg-gray-40 p-50 z-10 m-3 block w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                className="hidden lg:block bg-gray-40 p-50 z-10 m-3 w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
                 defaultValue={Units.KM}
                 onChange={(e) => {
                   const center = mapRef.current?.getCenter();
