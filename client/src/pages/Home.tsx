@@ -160,7 +160,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                 id="searchBar"
                 name="searchBar"
                 placeholder="Search a Place"
-                className="bg-gray-40 p-50 z-10 m-3 block w-full rounded-full lg:w-2/6 lg:rounded-xl h-12 border border-gray-600 p-4 text-lg opacity-90"
+                className="align-middle bg-gray-40 p-50 z-10 m-3 block w-full rounded-full lg:w-2/6 lg:rounded-xl h-12 border border-gray-600 p-4 text-lg opacity-90"
               />
               <select
                 name="categories"
@@ -316,7 +316,7 @@ export default function Home(props: HomeProps): React.ReactElement {
             ) : (
               <aside
                 id="showSearchResultsButton"
-                className="results top-inherit left-inherit load-slide-left w-1/7 fixed left-2 z-20 ml-2 h-4/5 rounded-lg pb-10 opacity-90"
+                className="hidden lg:block results top-inherit left-inherit load-slide-left w-1/7 fixed left-2 z-20 ml-2 h-4/5 rounded-lg pb-10 opacity-90"
               >
                 <div
                   className={`dark:bg-gray-150 z-20 flex flex-col rounded-lg bg-white p-5 shadow-md`}
@@ -338,7 +338,8 @@ export default function Home(props: HomeProps): React.ReactElement {
             ) : (
               <aside
                 id="showTripWindowButton"
-                className="trip top-inherit left-inherit load-slide-right w-1/7 fixed right-12 z-20 h-4/5 rounded-lg pb-10 opacity-90"
+                className="hidden lg:block 
+                trip top-inherit left-inherit load-slide-right w-1/7 fixed right-12 z-20 h-4/5 rounded-lg pb-10 opacity-90"
               >
                 <div
                   className={`dark:bg-gray-150 z-20 flex flex-col justify-items-end rounded-lg bg-white p-5 shadow-md`}
