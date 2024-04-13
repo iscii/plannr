@@ -17,6 +17,8 @@ import "react-simple-typewriter/dist/index";
 import AddIcon from "@mui/icons-material/Add";
 import MapIcon from "@mui/icons-material/Map";
 import SearchIcon from "@mui/icons-material/Search";
+import { RiEditCircleLine } from "react-icons/ri";
+import { SlArrowUp } from "react-icons/sl";
 
 import { Slider } from "@mui/material";
 import nearbySearch from "../api/GoogleMaps/nearbySearch";
@@ -58,6 +60,7 @@ export default function Home(props: HomeProps): React.ReactElement {
   const [keyWordData, setKeyWordData] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
   const [currentUnit, setCurrentUnit] = useState<Units>(Units.KM);
+  const [radiusSliderToggle, toggleRadiusSlider] = useState(false);
   const { currentInfoWindow, setInfoWindow: setSearchWindow } =
     useContext(SearchResultContext);
   const { currentTrip, setInfoWindow: setTripWindow } = useContext(TripContext);
@@ -160,12 +163,12 @@ export default function Home(props: HomeProps): React.ReactElement {
                 id="searchBar"
                 name="searchBar"
                 placeholder="Search a Place"
-                className="align-middle bg-gray-40 p-50 z-10 m-3 block w-full rounded-full lg:w-2/6 lg:rounded-xl h-12 border border-gray-600 p-4 text-lg opacity-90"
+                className="bg-gray-40 p-50 z-10 m-3 block h-12 w-full rounded-full border border-gray-600 p-4 align-middle text-lg opacity-90 lg:w-2/6 lg:rounded-xl"
               />
               <select
                 name="categories"
                 id="categories"
-                className="bg-gray-40 p-50 z-10 m-3 block w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                className="bg-gray-40 p-50 z-10 m-3 hidden w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90 lg:block"
               >
                 {placeKeys.map((key) => {
                   const val = EPlaces[key];
@@ -186,7 +189,7 @@ export default function Home(props: HomeProps): React.ReactElement {
               <select
                 name="travel_mode"
                 id="travel_mode"
-                className="bg-gray-40 p-50 z-10 m-3 block w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                className="bg-gray-40 p-50 z-10 m-3 hidden w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90 lg:block"
                 defaultValue={google.maps.TravelMode.WALKING}
                 onChange={(e) =>
                   setTravelMode(e.target.value as google.maps.TravelMode)
@@ -209,71 +212,93 @@ export default function Home(props: HomeProps): React.ReactElement {
                 })}
               </select>
 
-              <div className="hidden lg:flex bg-gray-40 p-50 z-10 m-3 w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg">
+              {/* web radius */}
+              <div className="bg-gray-40 p-50 z-10 m-3 hidden w-2/12 flex-row justify-center rounded-xl border border-gray-600 p-4 text-lg lg:flex">
                 <p className="text-md mr-5 rounded-xl bg-slate-100 pl-2 pr-2 text-center opacity-90">
                   Radius
                 </p>
-                {currentUnit === Units.KM ? (
-                  <Slider
-                    className="bg-gray-40 w-1/2"
-                    defaultValue={DEFAULT_RADIUS / 1000}
-                    value={
-                      circleData
-                        ? circleData.radius / 1000
-                        : DEFAULT_RADIUS / 1000
+                <Slider
+                  defaultValue={
+                    DEFAULT_RADIUS / (currentUnit === Units.KM ? 1000 : 1609)
+                  }
+                  value={
+                    circleData
+                      ? circleData.radius /
+                        (currentUnit === Units.KM ? 1000 : 1609)
+                      : DEFAULT_RADIUS /
+                        (currentUnit === Units.KM ? 1000 : 1609)
+                  }
+                  aria-label="Radius"
+                  valueLabelDisplay="auto"
+                  step={0.5}
+                  marks
+                  min={0.5}
+                  max={5}
+                  onChange={(e, value) => {
+                    if (e) {
+                    } //src/pages/Home.tsx(213,32): error TS6133: 'e' is declared but its value is never read.
+                    const center = mapRef.current?.getCenter();
+                    if (value && center) {
+                      setCenterData(center);
+                      setCircleData(
+                        new CircleData(centerData, (value as number) * 1000),
+                      );
                     }
-                    aria-label="Radius"
-                    valueLabelDisplay="auto"
-                    step={0.5}
-                    marks
-                    min={0.5}
-                    max={5}
-                    onChange={(e, value) => {
-                      if (e) {
-                      } //src/pages/Home.tsx(213,32): error TS6133: 'e' is declared but its value is never read.
-                      const center = mapRef.current?.getCenter();
-                      if (value && center) {
-                        setCenterData(center);
-                        setCircleData(
-                          new CircleData(centerData, (value as number) * 1000),
-                        );
+                  }}
+                />
+              </div>
+
+              {/* mobile radius */}
+              {/* for km-mi switching, take inspo from android volume slider */}
+              <div className="absolute right-4 top-4 z-10 m-1 flex h-8 w-8 items-center justify-center rounded-full border border-gray-600 lg:hidden">
+                <RiEditCircleLine
+                  size={22}
+                  onClick={() => toggleRadiusSlider(!radiusSliderToggle)}
+                />
+                {radiusSliderToggle && (
+                  <div className="absolute top-10 h-[200px] rounded-full border border-gray-600 bg-slate-100 py-4 opacity-90">
+                    <Slider
+                      defaultValue={DEFAULT_RADIUS / 1609}
+                      value={
+                        circleData
+                          ? circleData.radius / 1609
+                          : DEFAULT_RADIUS / 1609
                       }
-                    }}
-                  />
-                ) : (
-                  <Slider
-                    className="bg-gray-40 w-1/2"
-                    defaultValue={DEFAULT_RADIUS / 1609}
-                    value={
-                      circleData
-                        ? circleData.radius / 1609
-                        : DEFAULT_RADIUS / 1609
-                    }
-                    aria-label="Radius"
-                    valueLabelDisplay="auto"
-                    step={0.5}
-                    marks
-                    min={0.5}
-                    max={5}
-                    onChange={(e, value) => {
-                      if (e) {
-                      }
-                      const center = mapRef.current?.getCenter();
-                      if (value && center) {
-                        setCenterData(center);
-                        setCircleData(
-                          new CircleData(centerData, (value as number) * 1609),
-                        );
-                      }
-                    }}
-                  />
+                      aria-label="Radius"
+                      valueLabelDisplay="auto"
+                      step={0.5}
+                      marks
+                      min={0.5}
+                      max={5}
+                      onChange={(e, value) => {
+                        if (e) {
+                        }
+                        const center = mapRef.current?.getCenter();
+                        if (value && center) {
+                          setCenterData(center);
+                          setCircleData(
+                            new CircleData(
+                              centerData,
+                              (value as number) * 1609,
+                            ),
+                          );
+                        }
+                      }}
+                      sx={{
+                        '& input[type="range"]': {
+                          WebkitAppearance: "slider-vertical",
+                        },
+                      }}
+                      orientation="vertical"
+                    />
+                  </div>
                 )}
               </div>
 
               <select
                 name="units"
                 id="units"
-                className="hidden lg:block bg-gray-40 p-50 z-10 m-3 w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90"
+                className="bg-gray-40 p-50 z-10 m-3 hidden w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90 lg:block"
                 defaultValue={Units.KM}
                 onChange={(e) => {
                   const center = mapRef.current?.getCenter();
@@ -314,20 +339,27 @@ export default function Home(props: HomeProps): React.ReactElement {
                 unit={currentUnit}
               />
             ) : (
+              // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
               <aside
                 id="showSearchResultsButton"
-                className="hidden lg:block results top-inherit left-inherit load-slide-left w-1/7 fixed left-2 z-20 ml-2 h-4/5 rounded-lg pb-10 opacity-90"
+                className="results top-inherit left-inherit load-slide-up load-slide-left w-full fixed bottom-0 z-20 rounded-lg p-2 opacity-90 lg:bottom-auto lg:w-1/6 lg:left-2 lg:ml-2 lg:mr-0 lg:h-4/5"
               >
                 <div
-                  className={`dark:bg-gray-150 z-20 flex flex-col rounded-lg bg-white p-5 shadow-md`}
+                  className={`dark:bg-gray-150 z-20 hidden flex-col rounded-lg bg-white p-5 shadow-md lg:flex`}
                 >
-                  <SearchIcon className="text-2xl text-blue-500" />
+                  <SearchIcon className="hidden text-2xl text-blue-500 lg:inline" />
                   <p
                     className="toggle-button text-center text-lg"
                     onClick={() => toggleResults(true)}
                   >
                     Show Search Results &gt;
                   </p>
+                </div>
+                <div
+                  className="lg:hidden flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90"
+                  onClick={() => toggleResults(true)}
+                >
+                  <SlArrowUp size={28} />
                 </div>
               </aside>
             )}
@@ -338,8 +370,8 @@ export default function Home(props: HomeProps): React.ReactElement {
             ) : (
               <aside
                 id="showTripWindowButton"
-                className="hidden lg:block 
-                trip top-inherit left-inherit load-slide-right w-1/7 fixed right-12 z-20 h-4/5 rounded-lg pb-10 opacity-90"
+                className="trip top-inherit 
+                left-inherit load-slide-right w-1/6 fixed right-12 z-20 hidden h-4/5 rounded-lg pb-10 opacity-90 lg:block"
               >
                 <div
                   className={`dark:bg-gray-150 z-20 flex flex-col justify-items-end rounded-lg bg-white p-5 shadow-md`}
@@ -444,7 +476,7 @@ export default function Home(props: HomeProps): React.ReactElement {
         <div>Loading...</div>
       )}
 
-      <footer className="flex h-8 items-center justify-center bg-black text-white">
+      <footer className="hidden h-8 items-center justify-center bg-black text-white lg:flex">
         <p className="text-center">
           Plannr © 2023 gang gang ice cream so good, Inc.
         </p>

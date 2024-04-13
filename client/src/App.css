@@ -9,12 +9,28 @@ body {
   padding: 0;
 }
 
+.lg:load-slide-left {
+
+}
+
 .load-slide-left {
-  animation: 0.75s ease-out 0s 1 slideInFromLeft;
+  @media (min-width: 1024px) {
+    animation: 0.75s ease-out 0s 1 slideInFromLeft;
+  }
 }
 
 .load-slide-fast {
   animation: 0.25s ease-out 0s 1 slideInFromLeft;
+}
+
+.load-slide-up {
+  @media (max-width: 1023px) {
+    animation: 0.75s ease-out 0s 1 slideInFromBottom;
+  }
+}
+
+.load-slide-up-fast {
+  animation: 0.25s ease-out 0s 1 slideInFromBottom;
 }
 
 .load-slide-right {
@@ -105,10 +121,10 @@ body {
 }
 
 .card-title:hover {
-    font-size: 20px;
-    color: #4182dc;
-    transition: 0.5s;
-    cursor: pointer;
+  font-size: 20px;
+  color: #4182dc;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
 .place-card:hover {
@@ -118,16 +134,34 @@ body {
 }
 
 .toggle-button {
-    font-size: 18px;
-    color: #37465f;
-    transition: 0.75s;
+  font-size: 18px;
+  color: #37465f;
+  transition: 0.75s;
 }
 
 .toggle-button:hover {
-    cursor: pointer;
-    font-size: 20px;
-    color: #4182dc;
-    transition: 0.75s;
+  cursor: pointer;
+  font-size: 20px;
+  color: #4182dc;
+  transition: 0.75s;
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutToBottom {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 @keyframes slideInFromLeft {
@@ -173,6 +207,6 @@ body {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
