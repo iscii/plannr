@@ -164,7 +164,7 @@ export default function PlaceCard({
   }
 
   return (
-    <div className={isResult ? `place-card rounded-md p-2 load-slide-left ${selected()}` : `place-card rounded-md p-2`}>
+    <div className={`place-card rounded-md p-2 ${isResult ? `load-slide-left ${selected()}` : ""}`}>
       <div
         className={`grid grid-flow-col grid-rows-2 ${
           isResult ? "grid-cols-9" : "grid-cols-10"

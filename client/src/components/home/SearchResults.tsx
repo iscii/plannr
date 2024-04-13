@@ -76,7 +76,7 @@ export default function SearchResults({
               radius
             </span>
           </h3>
-          <div className="no-scrollbar flex-grow overflow-y-scroll px-3 py-4">
+          <div className="h-[400px] lg:h-auto lg:no-scrollbar flex-grow overflow-y-scroll px-3 py-4">
             {placeData.map((result, index) => (
               <div key={result.placeId}>
                 <PlaceCard place={result} isResult={true} index={index} />
