@@ -78,10 +78,10 @@ export default function NavDropdown(): React.ReactElement {
   }
 
   return (
-    <div className="hidden justify-between p-4 lg:flex lg:flex-1 lg:justify-end">
+    <div className="justify-between lg:p-4 lg:flex lg:flex-1 lg:justify-end">
       {/* <button onClick={blam}>Test Token</button> */}
 
-      <p className="pr-4 pt-4 text-lg leading-6 text-gray-900">
+      <p className="hidden lg:block pr-4 pt-4 text-lg leading-6 text-gray-900">
         { greeting() }{" "}
         <span className="font-bold">
           {currentUser ? currentUser.displayName || currentUser.email : "Guest"}

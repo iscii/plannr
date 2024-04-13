@@ -21,12 +21,12 @@ export default function NavBar(): React.ReactElement {
   ];
 
   return (
-    <header className="hidden lg:block bg-white">
+    <header className="fixed w-full bottom-0 z-20 h-16 lg:static lg:bottom-auto lg:h-auto lg:block bg-white">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        className="p-2 lg:mx-auto flex lg:max-w-7xl items-center justify-end lg:justify-between lg:px-8"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="hidden lg:flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
             {/* <img className="h-14 w-auto" src={logo_transparent} alt=""></img> */}
             <img
@@ -36,7 +36,7 @@ export default function NavBar(): React.ReactElement {
             ></img>
           </Link>
         </div>
-        <div>
+        <div className="hidden lg:block">
           <h1 className="text-3xl">
             Today, I want to
             <span className="text-3xl font-bold text-blue-500">

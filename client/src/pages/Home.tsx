@@ -158,17 +158,19 @@ export default function Home(props: HomeProps): React.ReactElement {
             <AddIcon className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform text-2xl text-blue-800" />
             {/* Search Bar */}
             <form className="flex justify-center" onSubmit={search}>
-              <input
-                type="search"
-                id="searchBar"
-                name="searchBar"
-                placeholder="Search a Place"
-                className="bg-gray-40 p-50 z-10 m-3 block h-12 w-full rounded-full border border-gray-600 p-4 align-middle text-lg opacity-90 lg:w-2/6 lg:rounded-xl"
-              />
+              <div className="bg-gray-40 z-10 m-3 flex items-center flex-start h-12 w-full rounded-full border bg-white border-gray-600 text-lg opacity-90 lg:w-2/6 lg:rounded-xl">
+                <input
+                  type="search"
+                  id="searchBar"
+                  name="searchBar"
+                  placeholder="Search a Place"
+                  className="rounded-full w-11/12 h-full p-4"
+                />
+              </div>
               <select
                 name="categories"
                 id="categories"
-                className="bg-gray-40 p-50 z-10 m-3 hidden w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90 lg:block"
+                className="bg-gray-40 z-10 m-3 hidden w-min rounded-xl border border-gray-600 p-4 text-lg opacity-90 lg:block"
               >
                 {placeKeys.map((key) => {
                   const val = EPlaces[key];
@@ -250,7 +252,7 @@ export default function Home(props: HomeProps): React.ReactElement {
 
               {/* mobile radius */}
               {/* for km-mi switching, take inspo from android volume slider */}
-              <div className="absolute right-4 top-4 z-10 m-1 flex h-8 w-8 items-center justify-center rounded-full border border-gray-600 lg:hidden">
+              <div className="absolute right-4 top-4 z-10 m-1 flex h-8 w-8 items-center justify-center rounded-full lg:hidden">
                 <RiEditCircleLine
                   size={22}
                   onClick={() => toggleRadiusSlider(!radiusSliderToggle)}
@@ -342,7 +344,7 @@ export default function Home(props: HomeProps): React.ReactElement {
               // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
               <aside
                 id="showSearchResultsButton"
-                className="results top-inherit left-inherit load-slide-up load-slide-left w-full fixed bottom-0 z-20 rounded-lg p-2 opacity-90 lg:bottom-auto lg:w-1/6 lg:left-2 lg:ml-2 lg:mr-0 lg:h-4/5"
+                className="results top-inherit left-inherit load-slide-up-half load-slide-left fixed bottom-0 z-20 w-full rounded-lg p-2 pb-4 mb-16 opacity-90 lg:bottom-auto lg:left-2 lg:ml-2 lg:mr-0 lg:h-4/5 lg:w-1/6"
               >
                 <div
                   className={`dark:bg-gray-150 z-20 hidden flex-col rounded-lg bg-white p-5 shadow-md lg:flex`}
@@ -356,7 +358,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                   </p>
                 </div>
                 <div
-                  className="lg:hidden flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90"
+                  className="flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90 lg:hidden"
                   onClick={() => toggleResults(true)}
                 >
                   <SlArrowUp size={28} />
@@ -371,7 +373,7 @@ export default function Home(props: HomeProps): React.ReactElement {
               <aside
                 id="showTripWindowButton"
                 className="trip top-inherit 
-                left-inherit load-slide-right w-1/6 fixed right-12 z-20 hidden h-4/5 rounded-lg pb-10 opacity-90 lg:block"
+                left-inherit load-slide-right fixed right-12 z-20 hidden h-4/5 w-1/6 rounded-lg pb-10 opacity-90 lg:block"
               >
                 <div
                   className={`dark:bg-gray-150 z-20 flex flex-col justify-items-end rounded-lg bg-white p-5 shadow-md`}

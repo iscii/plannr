@@ -41,7 +41,7 @@ export default function Signin(): React.ReactElement {
   };
   return (
     <div className="flex flex-col items-center justify-center">
-      <img src={logo} alt="logo" className="mb-4 h-1/4 w-1/4 rounded-full" />
+      <img src={logo} alt="logo" className="hidden lg:block mb-4 h-1/4 w-1/4 rounded-full" />
       <h1 className="text-3xl font-bold"> Sign In </h1>
       <form onSubmit={doSignIn} className="w-full">
         <TextField
