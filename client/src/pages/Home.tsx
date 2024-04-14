@@ -140,7 +140,7 @@ export default function Home(props: HomeProps): React.ReactElement {
   }, [keyWordData, typeData, centerData, travelMode]);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-svh lg:h-screen flex-col">
       {props.children /* modal */}
       <Navbar />
       {isLoaded ? (
