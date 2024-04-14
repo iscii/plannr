@@ -12,6 +12,7 @@ interface SearchProps {
   searchText: string;
   radius: number;
   unit: string;
+  classNames?: string;
 }
 
 export default function SearchResults({
@@ -21,6 +22,7 @@ export default function SearchResults({
   searchText,
   radius,
   unit,
+  classNames,
 }: SearchProps): React.ReactElement {
   // Convert radius to readable format
   const convertRadius = () => {
@@ -31,10 +33,19 @@ export default function SearchResults({
     }
   };
 
+  const unloadWindow = () => {
+    document.getElementById("tripWindow")?.classList.remove("load-slide-up");
+    document.getElementById("tripWindow")?.classList.add("unload-slide-up");
+
+    document.getElementById("tripWindow")?.classList.remove("load-slide-left");
+    document.getElementById("tripWindow")?.classList.add("unload-slide-left");
+    toggleResults(!resultsToggle);
+  };
+
   return (
     <aside
       id="searchResults"
-      className={`results top-inherit left-inherit load-slide-up load-slide-left fixed bottom-0 z-10 p-2 pb-4 mb-16 lg:bottom-auto lg:left-2 lg:z-20 lg:ml-2 lg:mr-0 lg:p-0 ${placeData.length < 3 ? "lg:h-fit" : "lg:h-4/5"} w-full rounded-lg opacity-90 lg:w-1/3 lg:pb-12 lg:pl-10`}
+      className={`results top-inherit left-inherit load-slide-up load-slide-left absolute bottom-0 z-10 p-2 pb-4 lg:fixed ${classNames} lg:bottom-auto lg:left-2 lg:z-20 lg:ml-2 lg:mr-0 lg:p-0 ${placeData.length < 3 ? "lg:h-fit" : "lg:h-4/5"} w-full rounded-lg opacity-90 lg:w-1/3 lg:pb-12 lg:pl-10`}
     >
       {/* <div
         className="flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90 lg:hidden"
@@ -42,6 +53,7 @@ export default function SearchResults({
       >
         <SlArrowDown size={28} />
       </div> */}
+      {/* filthy ass code xd */}
       {placeData.length !== 0 ? (
         <div
           className={`dark:bg-gray-150 z-20 flex ${placeData.length < 3 ? "h-fit" : "no-scrollbar h-full"} overflow flex-col rounded-lg bg-white shadow-md`}
@@ -53,14 +65,14 @@ export default function SearchResults({
             <button
               type="button"
               className="text-md hidden rounded-md px-4 py-2 text-center hover:font-bold hover:text-red-500 hover:transition hover:duration-300 lg:block"
-              onClick={() => toggleResults(!resultsToggle)}
+              onClick={() => unloadWindow()}
             >
               &lt; Close Search Results
             </button>
             <button
               type="button"
               className="lg:hidden"
-              onClick={() => toggleResults(!resultsToggle)}
+              onClick={() => unloadWindow()}
             >
               <SlArrowDown className="text-2xl" />
             </button>
@@ -76,7 +88,7 @@ export default function SearchResults({
               radius
             </span>
           </h3>
-          <div className="h-[400px] lg:h-auto lg:no-scrollbar flex-grow overflow-y-scroll px-3 py-4">
+          <div className="lg:no-scrollbar h-[400px] flex-grow overflow-y-scroll px-3 py-4 lg:h-auto">
             {placeData.map((result, index) => (
               <div key={result.placeId}>
                 <PlaceCard place={result} isResult={true} index={index} />

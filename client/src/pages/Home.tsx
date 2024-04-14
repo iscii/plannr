@@ -64,6 +64,7 @@ export default function Home(props: HomeProps): React.ReactElement {
   const { currentInfoWindow, setInfoWindow: setSearchWindow } =
     useContext(SearchResultContext);
   const { currentTrip, setInfoWindow: setTripWindow } = useContext(TripContext);
+  const [showSwipeTips, setShowSwipeTips] = useState(true);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -158,13 +159,13 @@ export default function Home(props: HomeProps): React.ReactElement {
             <AddIcon className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform text-2xl text-blue-800" />
             {/* Search Bar */}
             <form className="flex justify-center" onSubmit={search}>
-              <div className="bg-gray-40 z-10 m-3 flex items-center flex-start h-12 w-full rounded-full border bg-white border-gray-600 text-lg opacity-90 lg:w-2/6 lg:rounded-xl">
+              <div className="bg-gray-40 flex-start z-10 m-3 flex h-12 w-full items-center rounded-full border border-gray-600 bg-white text-lg opacity-90 lg:w-2/6 lg:rounded-xl">
                 <input
                   type="search"
                   id="searchBar"
                   name="searchBar"
                   placeholder="Search a Place"
-                  className="rounded-full w-11/12 h-full p-4"
+                  className="h-full w-11/12 rounded-full p-4"
                 />
               </div>
               <select
@@ -339,15 +340,16 @@ export default function Home(props: HomeProps): React.ReactElement {
                 searchText={searchText}
                 radius={circleData ? circleData.radius : DEFAULT_RADIUS}
                 unit={currentUnit}
+                classNames="hidden lg:block"
               />
             ) : (
               // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
               <aside
                 id="showSearchResultsButton"
-                className="results top-inherit left-inherit load-slide-up-half load-slide-left fixed bottom-0 z-20 w-full rounded-lg p-2 pb-4 mb-16 opacity-90 lg:bottom-auto lg:left-2 lg:ml-2 lg:mr-0 lg:h-4/5 lg:w-1/6"
+                className="results top-inherit left-inherit load-slide-up-half load-slide-left fixed bottom-0 z-20 mb-16 hidden w-full rounded-lg p-2 pb-4 opacity-90 lg:bottom-auto lg:left-2 lg:ml-2 lg:mr-0 lg:block lg:h-4/5 lg:w-1/6"
               >
                 <div
-                  className={`dark:bg-gray-150 z-20 hidden flex-col rounded-lg bg-white p-5 shadow-md lg:flex`}
+                  className={`dark:bg-gray-150 z-20 flex flex-col rounded-lg bg-white p-5 shadow-md`}
                 >
                   <SearchIcon className="hidden text-2xl text-blue-500 lg:inline" />
                   <p
@@ -357,18 +359,16 @@ export default function Home(props: HomeProps): React.ReactElement {
                     Show Search Results &gt;
                   </p>
                 </div>
-                <div
-                  className="flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90 lg:hidden"
-                  onClick={() => toggleResults(true)}
-                >
-                  <SlArrowUp size={28} />
-                </div>
               </aside>
             )}
 
             {/* Trip Window pretend-component */}
             {tripToggle ? (
-              <TripWindow tripToggle={tripToggle} toggleTrip={toggleTrip} />
+              <TripWindow
+                tripToggle={tripToggle}
+                toggleTrip={toggleTrip}
+                classNames="hidden lg:block"
+              />
             ) : (
               <aside
                 id="showTripWindowButton"
@@ -385,6 +385,49 @@ export default function Home(props: HomeProps): React.ReactElement {
                   >
                     &lt; Show Your Trip
                   </p>
+                </div>
+              </aside>
+            )}
+
+            {/* Mobile window components */}
+            {resultsToggle && tripToggle ? (
+              // use either resultsToggle or tripToggle to figure out which one to show first? maybe gotta see order in logs first
+              // make this into a swipeable carousel type - left and right to switch between the two, only two options, no staying in between. when not swiping you're locked to
+              <div className="absolute bottom-0 mb-16 block h-[600px] w-full overflow-x-scroll lg:hidden" onScroll={() => setShowSwipeTips(false)}>
+                <SearchResults
+                  placeData={placeData}
+                  resultsToggle={resultsToggle}
+                  toggleResults={toggleResults}
+                  searchText={searchText}
+                  radius={circleData ? circleData.radius : DEFAULT_RADIUS}
+                  unit={currentUnit}
+                  classNames="block lg:hidden"
+                />
+                <TripWindow
+                  tripToggle={tripToggle}
+                  toggleTrip={toggleTrip}
+                  classNames="block lg:hidden"
+                />
+                {showSwipeTips && (
+                  <div className="text-red-500 text-bold absolute bottom-0 flex h-[20px] w-full items-end justify-center text-sm lg:hidden">
+                    {">>>"} Swipe left to see your trip!
+                  </div>
+                )}
+              </div>
+            ) : (
+              // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
+              <aside
+                id="showSearchResultsButton"
+                className="results top-inherit left-inherit load-slide-up-half load-slide-left fixed bottom-0 z-20 mb-16 w-full rounded-lg p-2 pb-4 opacity-90 lg:bottom-auto lg:left-2 lg:ml-2 lg:mr-0 lg:hidden lg:h-4/5 lg:w-1/6"
+              >
+                <div
+                  className="flex h-[30px] w-full items-center justify-center rounded-xl bg-white opacity-90 lg:hidden"
+                  onClick={() => {
+                    toggleResults(true);
+                    toggleTrip(true);
+                  }}
+                >
+                  <SlArrowUp size={28} />
                 </div>
               </aside>
             )}
