@@ -118,6 +118,17 @@ export default function Home(props: HomeProps): React.ReactElement {
   };
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+        setCenterData({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }),
+      (error) => console.log(error),
+    );
+  }, []);
+
+  useEffect(() => {
     async function fetchData() {
       try {
         setSearchWindow(-1);
@@ -140,7 +151,7 @@ export default function Home(props: HomeProps): React.ReactElement {
   }, [keyWordData, typeData, centerData, travelMode]);
 
   return (
-    <div className="flex h-svh lg:h-screen flex-col">
+    <div className="flex h-svh flex-col lg:h-screen">
       {props.children /* modal */}
       <Navbar />
       {isLoaded ? (
@@ -393,7 +404,10 @@ export default function Home(props: HomeProps): React.ReactElement {
             {resultsToggle && tripToggle ? (
               // use either resultsToggle or tripToggle to figure out which one to show first? maybe gotta see order in logs first
               // make this into a swipeable carousel type - left and right to switch between the two, only two options, no staying in between. when not swiping you're locked to
-              <div className="absolute bottom-0 mb-16 block h-[600px] w-full overflow-x-scroll lg:hidden" onScroll={() => setShowSwipeTips(false)}>
+              <div
+                className="absolute bottom-0 mb-16 block h-[600px] w-full overflow-x-scroll lg:hidden"
+                onScroll={() => setShowSwipeTips(false)}
+              >
                 <SearchResults
                   placeData={placeData}
                   resultsToggle={resultsToggle}
@@ -409,7 +423,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                   classNames="block lg:hidden"
                 />
                 {showSwipeTips && (
-                  <div className="text-red-500 text-bold absolute bottom-0 flex h-[20px] w-full items-end justify-center text-sm lg:hidden">
+                  <div className="text-bold absolute bottom-0 flex h-[20px] w-full items-end justify-center text-sm text-red-500 lg:hidden">
                     {">>>"} Swipe left to see your trip!
                   </div>
                 )}
