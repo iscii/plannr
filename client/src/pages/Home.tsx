@@ -118,12 +118,16 @@ export default function Home(props: HomeProps): React.ReactElement {
   };
 
   useEffect(() => {
+    console.log("geolocate");
     navigator.geolocation.getCurrentPosition(
-      (position) =>
+      (position) => {
         setCenterData({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         }),
+        console.log("geolocated");
+        console.log(position.coords.latitude, position.coords.longitude);
+      },
       (error) => console.log(error),
     );
   }, []);
@@ -176,7 +180,7 @@ export default function Home(props: HomeProps): React.ReactElement {
                   id="searchBar"
                   name="searchBar"
                   placeholder="Search a Place"
-                  className="h-full w-11/12 rounded-full p-4"
+                  className="h-full w-11/12 rounded-full p-4 lg:w-full lg:rounded-xl"
                 />
               </div>
               <select
