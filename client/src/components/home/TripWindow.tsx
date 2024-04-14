@@ -71,6 +71,7 @@ export default function TripWindow({
   return (
     <aside
       id="tripWindow"
+      onClick={(e) => e.stopPropagation()}
       className={`trip top-inherit left-inherit load-slide-up load-slide-right absolute bottom-0 left-full z-10 p-2 pb-4 lg:fixed lg:left-auto ${classNames} lg:bottom-auto lg:right-12 lg:z-20 lg:ml-2 lg:mr-0 lg:p-0 ${currentTrip.length < 3 ? "lg:h-fit" : "lg:h-4/5"} w-full rounded-lg opacity-90 lg:w-1/3 lg:pb-12 lg:pl-10`}
     >
       {/* move this conditional into just the cards so we don't have to repeat some elements */}

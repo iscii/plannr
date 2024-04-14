@@ -45,6 +45,7 @@ export default function SearchResults({
   return (
     <aside
       id="searchResults"
+      onClick={(e) => e.stopPropagation()}
       className={`results top-inherit left-inherit load-slide-up load-slide-left absolute bottom-0 z-10 p-2 pb-4 lg:fixed ${classNames} lg:bottom-auto lg:left-2 lg:z-20 lg:ml-2 lg:mr-0 lg:p-0 ${placeData.length < 3 ? "lg:h-fit" : "lg:h-4/5"} w-full rounded-lg opacity-90 lg:w-1/3 lg:pb-12 lg:pl-10`}
     >
       {/* <div

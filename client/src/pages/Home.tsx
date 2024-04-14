@@ -354,7 +354,6 @@ export default function Home(props: HomeProps): React.ReactElement {
                 classNames="hidden lg:block"
               />
             ) : (
-              // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
               <aside
                 id="showSearchResultsButton"
                 className="results top-inherit left-inherit load-slide-up-half load-slide-left fixed bottom-0 z-20 mb-16 hidden w-full rounded-lg p-2 pb-4 opacity-90 lg:bottom-auto lg:left-2 lg:ml-2 lg:mr-0 lg:block lg:h-4/5 lg:w-1/6"
@@ -402,10 +401,15 @@ export default function Home(props: HomeProps): React.ReactElement {
 
             {/* Mobile window components */}
             {resultsToggle && tripToggle ? (
+              // how should i do this? i want to keep it one component that slides up and down but this is toggle. gotta revamp a lil much of the UI
               // use either resultsToggle or tripToggle to figure out which one to show first? maybe gotta see order in logs first
               // make this into a swipeable carousel type - left and right to switch between the two, only two options, no staying in between. when not swiping you're locked to
               <div
-                className="absolute bottom-0 mb-16 block h-[600px] w-full overflow-x-scroll lg:hidden"
+                className="absolute bottom-0 mb-16 block h-full w-full overflow-x-scroll lg:hidden"
+                onClick={() => {
+                  toggleResults(false);
+                  toggleTrip(false);
+                }}
                 onScroll={() => setShowSwipeTips(false)}
               >
                 <SearchResults
